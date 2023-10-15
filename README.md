@@ -1,8 +1,7 @@
-#### 1. How To Install
+## 1. How To Install
 You can check the `requirements.txt` for the required packages.
-****
 
-#### 2. Reproduce Results
+## 2. Reproduce Results
 Task name can be changed
 
 ```python
