@@ -1,12 +1,6 @@
-# Multitask Prompt Tuning (MPT)
-Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning [[Paper]](https://arxiv.org/abs/2303.02861)
-
-****
-
 #### 1. How To Install
 
 You can check the `requirements.txt` for the required packages.
-
 
 ****
 
