@@ -8,7 +8,7 @@ Task name can be changed
 CUDA_VISIBLE_DEVICES=1 python main_ddp.py --datasets='rte'  --model_name=t5-base --enc_prompt_tokens 100 -ts 16 -e 100 --bottle_neck 10
 ```
 
-## Reference
+## 3.Reference
 If you find our work helpful, please consider citing our paper:
 ```bibtex
 @inproceedings{dpt2023emnlp,
