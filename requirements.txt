@@ -1,0 +1,14 @@
+huggingface-hub==0.8.1
+numpy==1.22.4
+pandas==1.4.2
+scikit-learn==1.1.1
+scipy==1.8.1
+sentencepiece==0.1.96
+spacy==3.3.0
+tabulate==0.8.9
+tokenizers==0.12.1
+torch==2.0.0
+torchvision
+tqdm==4.64.0
+transformers==4.20.1
+datasets==2.3.2
