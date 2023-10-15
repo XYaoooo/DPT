@@ -1,7 +1,5 @@
 #### 1. How To Install
-
 You can check the `requirements.txt` for the required packages.
-
 ****
 
 #### 2. Reproduce Results
