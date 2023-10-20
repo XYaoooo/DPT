@@ -14,7 +14,7 @@ If you find our work helpful, please consider citing our paper:
 @inproceedings{dpt2023emnlp,
     title = "Decomposed Prompt Tuning via Low-Rank Reparameterization",
     author = "Xiao, Yao and Xu, Lu and Li, Jiaxi and Lu, Wei and Li, Xiaoli",
-    booktitle = "Proceedings of EMNLP ",
+    booktitle = "Findings of EMNLP ",
     year = "2023",
 }
 ```
