@@ -128,6 +128,7 @@ class CustomT5Dataset(Dataset):
             'source_mask': source_mask.to(dtype=torch.long), 
             'target_ids': target_ids.to(dtype=torch.long),
             'task_ids': task_id,
+            'raw_target': target_text,
             'extra_fields': str(self.data[index]['extra_fields']) if 'extra_fields' in self.data[index] else "{}"
         }
 
