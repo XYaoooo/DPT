@@ -36,8 +36,6 @@ class AbstractTask(abc.ABC):
     small_datasets_without_all_splits = ["cola", "wnli", "rte", "superglue-cb", "superglue-copa", "superglue-multirc",
                                          "superglue-wic", "superglue-wsc.fixed", "superglue-rte", "mrpc", "stsb",
                                          "superglue-boolq", "xsum", "scitail"]
-    # large_data_without_all_splits = ["qqp", "qnli", "superglue-record", "sst2", "squad", "snli", "anli", "mnli",
-    #                                  "amazon_polarity", "yelp_polarity", "winogrande", "newsqa", "searchqa", "triviaqa", "nq", "hotpotqa"]
     large_data_without_all_splits = ["qqp", "qnli", "superglue-record", "sst2", "squad", "snli", "anli",
                                      "amazon_polarity", "yelp_polarity", "winogrande", "newsqa", "searchqa", "triviaqa", "naturalquestions", "hotpotqa"]
 
@@ -56,10 +54,11 @@ class AbstractTask(abc.ABC):
                        prefix: str = None,
                        extra_fields={},
                        verbalizer=""):
+        
         src_prefix = self.name if prefix is None else prefix
         if verbalizer:
             sources = [verbalizer] + sources
-        sources = [src_prefix] + sources if add_prefix else sources
+        # sources = [src_prefix] + sources if add_prefix else sources
         if len(extra_fields) == 0:
             return {'source': ' '.join(sources),
                     'target': ' '.join(targets),
@@ -765,7 +764,7 @@ class SuperGLUEWSCFixed(AbstractTask):
     metric_names = ["accuracy"]
 
 
-    def get(self, split, add_prefix=True, n_obs=None, split_validation_test=False, lang=None, file_name=None, add_vb=False, file_prefix=None):
+    def get(self, split, add_prefix=False, n_obs=None, split_validation_test=False, lang=None, file_name=None, add_vb=False, file_prefix=None):
         self.file_prefix = file_prefix  # path prefix for external dataset loading
 
         if split_validation_test and split == "train":
@@ -773,7 +772,6 @@ class SuperGLUEWSCFixed(AbstractTask):
             dataset = self.load_dataset(split=mapped_split)
             dataset = dataset.filter(lambda example: example["label"]==1)
             indices = self.get_split_indices(dataset)
-            n_obs = 32
             dataset = self.subsample(dataset, n_obs, indices)
         else:
             mapped_split = self.split_to_data_split["validation"]
@@ -799,15 +797,16 @@ class SuperGLUEWSCFixed(AbstractTask):
         span2_index = example['span2_index'] + 0 * int(example['span1_index'] < example['span2_index'])
         text = self._mark_span(text, example['span2_text'], span2_index, '*')
         
-        src_texts = ["text:", text]
+        src_texts = [text]
         tgt_texts = [example['span1_text']]
         
         if add_vb:
             verbalizer = "{ 0 : false, 1 : true }"
         else:
             verbalizer = ""
-        label = example["label"]
-        return self.seq2seq_format(src_texts, tgt_texts, label, add_prefix, verbalizer=verbalizer)
+        
+        return self.seq2seq_format(src_texts, tgt_texts, add_prefix, verbalizer=verbalizer)
+    
 
 
 class SuperGLUERecord(AbstractTask):
