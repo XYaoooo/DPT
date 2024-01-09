@@ -141,7 +141,7 @@ def run(local_rank, args):
         TrainDataloader = DataLoader(training_set, **train_params)
 
     ValDataloaders = {data_name: DataLoader(data_set, **eval_params) for data_name, data_set in val_sets.items()}
-
+    
     ###################################################################################################
     #   Build the model                                                                                   #
     ###################################################################################################
@@ -298,7 +298,6 @@ def run(local_rank, args):
                         if step % update_stride == 0:
                             pbar.update(update_stride)                        
                         continue
-                    
                     if len(batch['source_ids'].shape) == 3:
                         source_ids = batch['source_ids'].squeeze(0).to(local_rank)
                         source_mask = batch['source_mask'].squeeze(0).to(local_rank)
@@ -419,12 +418,13 @@ def task_evaluation_wsc(args, dataloader_dict, model, tokenizer, device, output_
             task_preds = []
             task_labels = []
             for batch in data_loader:
+                
                 source_ids = batch['source_ids'].to(device)
                 source_mask = batch['source_mask'].to(device)
                 task_ids = batch['task_ids'].to(device)
                 labels = batch['target_ids']
                 raw_input = batch['raw_target']
-                tag_labels += [i for i in batch["label"].numpy().tolist()]
+                tag_labels += [1 for i in batch["raw_target"]]
 
                 try:
                     preds = model.generate(
@@ -455,7 +455,8 @@ def task_evaluation_wsc(args, dataloader_dict, model, tokenizer, device, output_
                 task_labels += decoded_labels
 
                 #return {"accuracy": 100 * ((np.array(predictions) == np.array(targets)).mean())}
-                
+                print(task_preds)
+                print(raw_input)
                 for pred, truth in zip(task_preds, raw_input):
                     flag = wsc_simple(pred, truth)
                     wsc_acc.append(flag)
